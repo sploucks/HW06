@@ -1,0 +1,188 @@
+#include <stdio.h>
+#include <math.h>
+
+#define YEARNUM 10
+
+void enterYears();
+int userInput();
+int enterWeek();
+void inputError();
+int getDecember31(int);
+int getLeapYear(int);
+//int getDayOfYear(int);
+int getStartDay(int, int)
+
+int main()
+{
+    //local declarations
+    int years[YEARNUM] = {0}; //defines array to store years
+    int count; //initializes counter variable
+    int weekDay; //initializes day of the week
+    int startDay; //week day of the first day of the month
+    
+    //calling functions
+    enterYears();
+    
+    for(count = 0; count < YEARNUM; count++)
+    {
+        years[count] = userInput();
+    }
+    
+    weekDay = enterWeek();
+    
+    while(weekDay < 0 || weekDay > 6)
+    {
+        inputError();
+        weekDay = enterWeek();
+    }
+    
+    dec31 = getDecember31(year);
+    leapYear = getLeapYear(year);
+    dayOfYear = getDayOfYear(occurrence);
+    startDay = getStartDay(int dayOfYear, int dec31)
+    
+    return 0;
+}
+
+void enterYears()
+{
+    printf("Enter 10 years [1700 - 2100] -> ");
+}
+
+int userInput()
+{
+    int year; //stores entered year value
+    
+    scanf("%d", &year);
+    
+    return(year);
+}
+
+int enterWeek()
+{
+    int week; //defines value for the week number
+    
+    printf("Enter day of week number -> ");
+    scanf("%d", &week);
+    printf("\n");
+    
+    return(week);
+}
+
+void inputError()
+{
+    printf("Error! Day of the week must be 0 to 6.\n\n");
+}
+
+/***************************************************************************
+* *
+* *  Function Information
+* *
+* *  Name of Function: getDecember31
+* *
+* *  Function Return Type: int
+* *
+* *  Parameters (list data type, name, and comment one per line):
+* *   1.int thisYear - current year given by user
+* *
+* *  Function Description:
+* *  Function calculates the day of the week of December 31 of the previous year
+* *
+* ***************************************************************************/
+
+int getDecember31(int thisYear)
+{
+    int lastYear; //stores the number of the previous year
+    int dec31; //day of the week for December 31 of the previous year
+ 
+    lastYear = thisYear - 1;
+    dec31 = (lastYear * 365 + (lastYear / 4) - (lastYear / 100) + (lastYear / 400)) % 7;
+
+    return(dec31);
+}
+
+/***************************************************************************
+* *
+* *  Function Information
+* *
+* *  Name of Function: getLeapYear
+* *
+* *  Function Return Type: int
+* *
+* *  Parameters (list data type, name, and comment one per line):
+* *   1.int getLeapYear - stores if this year is a leap year or not
+* *
+* *  Function Description:
+* *  Function calculates if the current year is a leap year.
+* *
+* ***************************************************************************/
+
+int getLeapYear(int year)
+{
+    int leapYearPossible; //variable to account for a possible leap year
+   
+    leapYearPossible = (!(year % 4) && (year % 100)) || !(year % 400);
+   
+    return(leapYearPossible);
+}
+
+/***************************************************************************
+* *
+* *  Function Information
+* *
+* *  Name of Function: getDayOfYear
+* *
+* *  Function Return Type: int
+* *
+* *  Parameters (list data type, name, and comment one per line):
+* *   1.int month
+* *   
+* *
+* *  Function Description:
+* *  Function calculates how many days have passed in the current year.
+* *
+* ***************************************************************************/
+
+int getDayOfYear(int month, int leapYear)
+{
+    int day; //stores day of the year calculations
+   
+    switch(month)
+    {
+        case 1:
+            day = 1;
+        case 2:
+            day += 31 + leapYear;
+        case 3:
+            day += 
+    }
+   
+    return(result);
+}
+
+/***************************************************************************
+* *
+* *  Function Information
+* *
+* *  Name of Function: getWeekDay
+* *
+* *  Function Return Type: int
+* *
+* *  Parameters (list data type, name, and comment one per line):
+* *   1.int dayOfYear - how many days have passed in the current year
+* *   2.int dec31 - day of the week of December 31 of the previous year
+* *
+* *  Function Description:
+* *  Function takes above parameters and calculates the day of the week
+* *
+* ***************************************************************************/
+ 
+int getStartDay(int dayOfYear, int dec31)
+{
+    int result; //stores result of dec31 calculations
+   
+    result = (dayOfYear % 7 + dec31) % 7;
+
+    return(result);
+}
+
