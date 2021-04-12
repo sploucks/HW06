@@ -1,0 +1,443 @@
+#include <stdio.h>
+#include <math.h>
+
+#define YEARNUM 10
+
+void enterYears();
+int userInput();
+int enterWeek();
+void inputError();
+int getDecember31(int);
+int getLeapYear(int);
+int getDayOfYear(int, int);
+int getStartDay(int, int);
+void printDay(int);
+void printMonth(int);
+void outputCalc(int, int*);
+
+int main()
+{
+    //local declarations
+    int years[YEARNUM] = {0}; //defines array to store years
+    int count; //initializes counter variable
+    int firstWeekDay; //initializes day of the week
+    
+    //calling functions
+    enterYears();
+    
+    for(count = 0; count < YEARNUM; count++)
+    {
+        years[count] = userInput();
+    }
+    
+    firstWeekDay = enterWeek();
+    
+    while(firstWeekDay < 0 || firstWeekDay > 6)
+    {
+        inputError();
+        firstWeekDay = enterWeek();
+    }
+    
+    outputCalc(firstWeekDay, years);
+    
+    //dayOfYear = getDayOfYear(month);
+    //startDay = getStartDay(dayOfYear, dec31)
+    
+    return 0;
+}
+
+/***************************************************************************
+* *
+* *  Function Information
+* *
+* *  Name of Function: enterYears
+* *
+* *  Function Return Type: void
+* *
+* *  Parameters (list data type, name, and comment one per line): N/A
+* *
+* *  Function Description:
+* *  This function prints the user prompt for ten years.
+* *
+* ***************************************************************************/
+
+void enterYears()
+{
+    printf("Enter 10 years [1700 - 2100] -> ");
+}
+
+/***************************************************************************
+* *
+* *  Function Information
+* *
+* *  Name of Function: userInput
+* *
+* *  Function Return Type: int
+* *
+* *  Parameters (list data type, name, and comment one per line): N/A
+* *
+* *  Function Description:
+* *  This function stores the years given.
+* *
+* ***************************************************************************/
+
+int userInput()
+{
+    int year; //stores entered year value
+    
+    scanf("%d", &year);
+    
+    return(year);
+}
+
+/***************************************************************************
+* *
+* *  Function Information
+* *
+* *  Name of Function: enterWeek
+* *
+* *  Function Return Type: int
+* *
+* *  Parameters (list data type, name, and comment one per line): N/A
+* *
+* *  Function Description:
+* *  This function prompts the user for the day of the week.
+* *
+* ***************************************************************************/
+
+int enterWeek()
+{
+    int week; //defines value for the week number
+    
+    printf("Enter day of week number -> ");
+    scanf("%d", &week);
+    printf("\n");
+    
+    return(week);
+}
+
+/***************************************************************************
+* *
+* *  Function Information
+* *
+* *  Name of Function: inputError
+* *
+* *  Function Return Type: void
+* *
+* *  Parameters (list data type, name, and comment one per line): N/A
+* *
+* *  Function Description:
+* *  This function displays in the case of a user input error.
+* *
+* ***************************************************************************/
+
+void inputError()
+{
+    printf("Error! Day of the week must be 0 to 6.\n\n");
+}
+
+/***************************************************************************
+* *
+* *  Function Information
+* *
+* *  Name of Function: getDecember31
+* *
+* *  Function Return Type: int
+* *
+* *  Parameters (list data type, name, and comment one per line):
+* *   1.int thisYear - current year given by user
+* *
+* *  Function Description:
+* *  Function calculates the day of the week of December 31 of the previous year
+* *
+* ***************************************************************************/
+
+int getDecember31(int thisYear)
+{
+    int lastYear; //stores the number of the previous year
+    int dec31; //day of the week for December 31 of the previous year
+ 
+    lastYear = thisYear - 1;
+    dec31 = (lastYear * 365 + (lastYear / 4) - (lastYear / 100) + (lastYear / 400)) % 7;
+
+    return(dec31);
+}
+
+/***************************************************************************
+* *
+* *  Function Information
+* *
+* *  Name of Function: getLeapYear
+* *
+* *  Function Return Type: int
+* *
+* *  Parameters (list data type, name, and comment one per line):
+* *   1.int year - current year given by user
+* *
+* *  Function Description:
+* *  Function calculates if the current year is a leap year.
+* *
+* ***************************************************************************/
+
+int getLeapYear(int year)
+{
+    int leapYearPossible; //variable to account for a possible leap year
+   
+    leapYearPossible = (!(year % 4) && (year % 100)) || !(year % 400);
+   
+    return(leapYearPossible);
+}
+
+/***************************************************************************
+* *
+* *  Function Information
+* *
+* *  Name of Function: getDayOfYear
+* *
+* *  Function Return Type: int
+* *
+* *  Parameters (list data type, name, and comment one per line):
+* *   1.int month - current month
+* *   2.int leapYear - variable to account for the possibility of a leap year
+* *   
+* *  Function Description:
+* *  Function calculates how many days have passed in the current year.
+* *
+* ***************************************************************************/
+
+int getDayOfYear(int month, int leapYear)
+{
+    int day; //stores day of the year calculations
+   
+    switch(month)
+    {
+        case 1:
+            day = 1;
+            break;
+        case 2:
+            day = 31 + 1;
+            break;
+        case 3:
+            day = 31 + 28 + leapYear + 1;
+            break;
+        case 4:
+            day = (31 * 2) + 28 + leapYear + 1;
+            break;
+        case 5:
+            day = (31 * 2) + 28 + leapYear + 30 + 1;
+            break;
+        case 6:
+            day = (31 * 3) + 28 + leapYear + 30 + 1;
+            break;
+        case 7:
+            day = (31 * 3) + 28 + leapYear + (30 * 2) + 1;
+            break;
+        case 8:
+            day = (31 * 4) + 28 + leapYear + (30 * 2) + 1;
+            break;
+        case 9:
+            day = (31 * 5) + 28 + leapYear + (30 * 2) + 1;
+            break;
+        case 10:
+            day = (31 * 5) + 28 + leapYear + (30 * 3) + 1;
+            break;
+        case 11:
+            day = (31 * 6) + 28 + leapYear + (30 * 3) + 1;
+            break;
+        case 12:
+            day = (31 * 6) + 28 + leapYear + (30 * 4) + 1;
+            break;
+    }
+   
+    return(day);
+}
+
+/***************************************************************************
+* *
+* *  Function Information
+* *
+* *  Name of Function: getStartDay
+* *
+* *  Function Return Type: int
+* *
+* *  Parameters (list data type, name, and comment one per line):
+* *   1.int dayOfYear - how many days have passed in the current year
+* *   2.int dec31 - day of the week of December 31 of the previous year
+* *
+* *  Function Description:
+* *  Function takes above parameters and calculates the day of the week
+* *
+* ***************************************************************************/
+ 
+int getStartDay(int dayOfYear, int dec31)
+{
+    int result; //stores result of dec31 calculations
+   
+    result = (dayOfYear % 7 + dec31) % 7;
+
+    return(result);
+}
+
+/***************************************************************************
+* *
+* *  Function Information
+* *
+* *  Name of Function: printDay
+* *
+* *  Function Return Type: void
+* *
+* *  Parameters (list data type, name, and comment one per line):
+* *   1.int day - numerical value for the day of the week
+* *
+* *  Function Description:
+* *  This function displays the given day of the week.
+* *
+* ***************************************************************************/
+
+void printDay(int day)
+{
+    switch(day)
+    {
+        case 0:
+            printf("Sunday");
+            break;
+        case 1:
+            printf("Monday");
+            break;
+        case 2:
+            printf("Tuesday");
+            break;
+        case 3:
+            printf("Wednesday");
+            break;
+        case 4:
+            printf("Thursday");
+            break;
+        case 5:
+            printf("Friday");
+            break;
+        case 6:
+            printf("Saturday");
+            break;
+    }
+}
+
+/***************************************************************************
+* *
+* *  Function Information
+* *
+* *  Name of Function: printMonth
+* *
+* *  Function Return Type: void
+* *
+* *  Parameters (list data type, name, and comment one per line):
+* *   1.int month - numerical value for the month
+* *
+* *  Function Description:
+* *  This function displays the given month of the year.
+* *
+* ***************************************************************************/
+
+void printMonth(int month)
+{
+    switch(month)
+    {
+        case 1:
+            printf("January ");
+            break;
+        case 2:
+            printf("February ");
+            break;
+        case 3:
+            printf("March ");
+            break;
+        case 4:
+            printf("April ");
+            break;
+        case 5:
+            printf("May ");
+            break;
+        case 6:
+            printf("June ");
+            break;
+        case 7:
+            printf("July ");
+            break;
+        case 8:
+            printf("August ");
+            break;
+        case 9:
+            printf("September ");
+            break;
+        case 10:
+            printf("October ");
+            break;
+        case 11:
+            printf("November ");
+            break;
+        case 12:
+            printf("December ");
+            break;
+    }
+}
+
+/***************************************************************************
+* *
+* *  Function Information
+* *
+* *  Name of Function: outputCalc
+* *
+* *  Function Return Type: void
+* *
+* *  Parameters (list data type, name, and comment one per line):
+* *   1.int weekDay - numerical value for the day of the weekDay
+* *   2.int years[] - array storing ten different years
+* *
+* *  Function Description:
+* *  This function displays the desired day of the week and all the months within a certain year that start with that specific day of the week.
+* *
+* ***************************************************************************/
+
+void outputCalc(int weekDay, int years[])
+{
+    int count; //counter variable for loop
+    int month; //stores month of the year
+    int dec31; //week day for December 31 of the previous year
+    int leapYear; //possibility for a leap year
+    int dayOfYear; //total days passed in given year
+    int startDay; //week day of the first day of the month
+    
+    printf("Desired day of the week: ");
+    printDay(weekDay);
+    printf("\n");
+    
+    for(count = 0; count < YEARNUM; count++)
+    {
+        printf("Months in %i starting on ", years[count]);
+        printDay(weekDay);
+        printf(": ");
+        
+        for(month = 1; month < 13; month++)
+        {
+            dec31 = getDecember31(years[count]);
+            leapYear = getLeapYear(years[count]);
+            dayOfYear = getDayOfYear(month, leapYear);
+            startDay = getStartDay(dayOfYear, dec31);
+            if(startDay == weekDay)
+            {
+                printMonth(month);
+            }
+        }
+        
+        if(weekDay < 6)
+        {
+            ++weekDay;
+        }
+        else
+        {
+            weekDay = 0;
+        }
+        
+        printf("\n");
+    }
+}
